@@ -43,8 +43,10 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  is_admin      Boolean?
   accounts      Account[]
   sessions      Session[]
+  buckets       Bucket[]
 }
 
 model VerificationToken {
@@ -53,4 +55,13 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Bucket {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  check_outAt DateTime @default(now())
+  items       Json
+  totalPrice  Float
+  user        User     @relation(fields: [userId], references: [id])
 }

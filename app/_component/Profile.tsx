@@ -44,7 +44,10 @@ const Profile = () => {
                 variant={"destructive"}
                 size={"sm"}
                 className="w-full"
-                onClick={() => signOut({ callbackUrl: "/login" })}
+                onClick={() => {
+                  signOut({ callbackUrl: "/login" });
+                  localStorage.removeItem("shoppingCartState");
+                }}
               >
                 <LogOut /> Sign out
               </Button>

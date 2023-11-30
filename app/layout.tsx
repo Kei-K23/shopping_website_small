@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import TRPCProvider from "@/provider/TRPCProvider";
 import Session from "@/provider/session-provider";
 import Navbar from "./_component/Navbar";
 import { ShoppingCartProvider } from "@/provider/ShoppingCartProvider";
 import { Toaster } from "@/components/ui/toaster";
+import QueryProvider from "@/provider/query-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,15 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Session>
-          <TRPCProvider>
+        <QueryProvider>
+          <Session>
             <ShoppingCartProvider>
               <Navbar />
               {children}
               <Toaster />
             </ShoppingCartProvider>
-          </TRPCProvider>
-        </Session>
+          </Session>
+        </QueryProvider>
       </body>
     </html>
   );

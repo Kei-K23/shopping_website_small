@@ -20,10 +20,11 @@ import { useShoppingCart } from "@/provider/ShoppingCartProvider";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/components/ui/use-toast";
 
 const Cart = () => {
   const { state, dispatch } = useShoppingCart();
-
+  const { toast } = useToast();
   const totalQuantity = state.items.length
     ? state.items.reduce((acc, curr) => {
         const quantity = curr.quantity;
@@ -66,13 +67,25 @@ const Cart = () => {
           </h3>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-
-        <DropdownMenuItem>
-          <Button className="w-full">
-            <CheckCircle /> Check out
-          </Button>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        {totalQuantity > 0 && (
+          <>
+            <DropdownMenuItem>
+              <Button
+                className="w-full"
+                onClick={() => {
+                  state.items = [];
+                  toast({
+                    title: "Successfully Purchased items",
+                  });
+                  localStorage.removeItem("shoppingCartState");
+                }}
+              >
+                <CheckCircle /> Check out
+              </Button>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
 
         {state.items.length ? (
           <ScrollArea className="w-full h-72 sm:h-96">
